@@ -18,53 +18,53 @@
         app:layout_constraintVertical_bias="0.085" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/botonRojo"
         android:layout_width="150dp"
         android:layout_height="156dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="154dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="36dp"
-        android:background="#DDC83E3E"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        android:background="@color/rojoApagado"
+        app:layout_constraintBottom_toTopOf="@+id/botonVerde"
+        app:layout_constraintEnd_toStartOf="@+id/botonAzul"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/botonAzul"
         android:layout_width="150dp"
         android:layout_height="156dp"
         android:layout_marginTop="154dp"
         android:layout_marginEnd="41dp"
         android:layout_marginBottom="36dp"
-        android:background="#33428F"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        android:background="@color/azulApagado"
+        app:layout_constraintBottom_toTopOf="@+id/botonAmarillo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/botonVerde"
         android:layout_width="150dp"
         android:layout_height="156dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="346dp"
         android:layout_marginEnd="20dp"
-        android:background="#CCFF90"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        android:background="@color/verdeApagado"
+        app:layout_constraintEnd_toStartOf="@+id/botonAmarillo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/botonAmarillo"
         android:layout_width="150dp"
         android:layout_height="156dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="228dp"
-        android:background="#CCB65F"
+        android:background="@color/amarilloApagado"
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
