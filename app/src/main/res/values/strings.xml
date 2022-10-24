@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Simon Dice</string>
+    <string name="botonInicio">Click para empezar</string>
 </resources>

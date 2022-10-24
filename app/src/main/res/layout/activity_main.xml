@@ -2,8 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
-    android:id="@+id/botonInicio"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -12,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.017"
@@ -25,27 +23,25 @@
         android:layout_width="150dp"
         android:layout_height="156dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="154dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="259dp"
+        android:layout_marginBottom="463dp"
         android:background="@color/rojoApagado"
-        app:layout_constraintBottom_toTopOf="@+id/botonVerde"
-        app:layout_constraintEnd_toStartOf="@+id/botonAzul"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/botonAzul"
         android:layout_width="150dp"
         android:layout_height="156dp"
-        android:layout_marginTop="154dp"
-        android:layout_marginEnd="41dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginStart="225dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="463dp"
         android:background="@color/azulApagado"
-        app:layout_constraintBottom_toTopOf="@+id/botonAmarillo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
@@ -53,24 +49,26 @@
         android:layout_width="150dp"
         android:layout_height="156dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="346dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="259dp"
+        android:layout_marginBottom="277dp"
         android:background="@color/verdeApagado"
-        app:layout_constraintEnd_toStartOf="@+id/botonAmarillo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/botonAmarillo"
         android:layout_width="150dp"
         android:layout_height="156dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="228dp"
+        android:layout_marginStart="225dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="276dp"
         android:background="@color/amarilloApagado"
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -81,13 +79,13 @@
 
     <Button
         android:id="@+id/botonInicio"
-        android:layout_width="91dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="594dp"
+        android:layout_width="123dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="524dp"
         android:background="#F6F1F1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="DuplicateIds" />
+        tools:text="@string/botonInicio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

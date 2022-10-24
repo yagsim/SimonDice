@@ -11,8 +11,8 @@
     <color name="blue">#304FFE</color>
     <color name="green">#64DD17</color>
     <color name="yellow">#FFD600</color>
-    <color name="rojoApagado">#CF1C55</color>
-    <color name="azulApagado">#82B1FF</color>
-    <color name="verdeApagado">#CCFF90</color>
-    <color name="amarilloApagado">#FFFF8D</color>
+    <color name="rojoApagado">#8E2828</color>
+    <color name="azulApagado">#274A83</color>
+    <color name="verdeApagado">#5A812C</color>
+    <color name="amarilloApagado">#81812E</color>
 </resources>

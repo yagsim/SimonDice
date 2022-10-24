@@ -5,12 +5,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private var inicio= false
     private var arrayColor=ArrayList<Int>()
     private var arrayClick=ArrayList<Int>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -25,65 +31,16 @@ class MainActivity : AppCompatActivity() {
         botonInicio.visibility= View.INVISIBLE
             inicio=true
             mostrarColor()
-            arrayColor.add(cambiarColor(botonRojo,botonAzul,botonVerde,botonAmarillo))
+            aleatorio(botonRojo,botonAzul,botonVerde,botonAmarillo)
+            cambiarColor(botonRojo,botonAzul,botonVerde,botonAmarillo)
+
         }
-        botonRojo.setOnClickListener{
-            if(inicio){
-                if(arrayClick.size==arrayColor.size-1){
-                    arrayClick.add(1)
-               if(arrayClick==arrayColor){
-                        textView.text="Correcto"
-               }else{
-                        textView.text="ERROR.PERDISTE"
-                    }
-                }else if(arrayClick.size<arrayColor.size){
-                    arrayClick.add(1)
-                }
-            }
-        }
-        botonAzul.setOnClickListener{
-            if(inicio){
-                if(arrayClick.size==arrayColor.size-1){
-                    arrayClick.add(2)
-                    if(arrayClick==arrayColor){
-                        textView.text="Correcto"
-                    }else{
-                        textView.text="ERROR.PERDISTE"
-                    }
-                }else if(arrayClick.size<arrayColor.size){
-                    arrayClick.add(2)
-                }
-            }
-        }
-        botonVerde.setOnClickListener{
-            if(inicio){
-                if(arrayClick.size==arrayColor.size-1){
-                    arrayClick.add(3)
-                    if(arrayClick==arrayColor){
-                        textView.text="Correcto"
-                    }else{
-                        textView.text="ERROR.PERDISTE"
-                    }
-                }else if(arrayClick.size<arrayColor.size){
-                    arrayClick.add(3)
-                }
-            }
-        }
-        botonAmarillo.setOnClickListener{
-            if(inicio){
-                if(arrayClick.size==arrayColor.size-1){
-                    arrayClick.add(4)
-                    if(arrayClick==arrayColor){
-                        textView.text="Correcto"
-                    }else{
-                        textView.text="ERROR.PERDISTE"
-                    }
-                }else if(arrayClick.size<arrayColor.size){
-                    arrayClick.add(4)
-                }
-            }
-        }
+
+
+
+
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -91,31 +48,45 @@ class MainActivity : AppCompatActivity() {
         val botonAzul: Button = findViewById(R.id.botonAzul)
         val botonVerde: Button = findViewById(R.id.botonVerde)
         val botonAmarillo: Button = findViewById(R.id.botonAmarillo)
-        if(inicio){
-            cambiarColor(botonRojo ,botonAzul ,botonVerde, botonAmarillo)
-        }
-    }
-    private fun cambiarColor(botonRojo:Button ,botonVerde: Button , botonAmarillo:Button, botonAzul:Button): Int {
 
-        var color=0
-        when(mostrarColor()){
-            R.color.red-> color=1
-            R.color.blue-> color=2
-            R.color.green->color=3
-            R.color.yellow->color=4
-        }
-
-        return color
     }
 
+    private fun aleatorio(botonRojo:Button ,botonVerde: Button , botonAmarillo:Button, botonAzul:Button) {
 
-    private fun mostrarColor(): Int {
+        val randomInt: Int = Random.nextInt(4) + 1
+         val courutine=GlobalScope.launch(Dispatchers.Main) {
+
+
+             val cambioColor = when (randomInt) {
+                 1 -> botonRojo.setBackgroundResource(mostrarColor())
+                 2 -> botonAzul.setBackgroundResource(mostrarColor())
+                 3 -> botonVerde.setBackgroundResource(mostrarColor())
+                 else -> botonAmarillo.setBackgroundResource(mostrarColor())
+             }
+
+         }
+
+    }
+
+
+    private fun mostrarColorApagado(): Int {
         val color = when (Random.nextInt(4) + 1) {
             1 -> R.color.red
             2 -> R.color.blue
             3 -> R.color.green
             else -> R.color.yellow
         }
+        return color
+    }
+    private fun mostrarColor():Int{
+        var color=0
+        when(mostrarColor()){
+            R.color.red-> color=1
+            R.color.blue -> color=2
+            R.color.green->color=3
+            R.color.yellow->color=4
+        }
+
         return color
     }
 }
