@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.room.Room
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -26,11 +27,35 @@ class MainActivity : AppCompatActivity() {
     lateinit var botonAmarillo: Button
     lateinit var botonInicio: Button
     lateinit var textView: TextView
+    private var marcador = 0
+    private var record = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //tendremos que hacer una corrutina porque no se puede en el hilo principal
+        val CourrutineDb = GlobalScope.launch(Dispatchers.Main) {
+            val db: RecordDB = Room   //instanciamos Db
+                .databaseBuilder(applicationContext,
+                    RecordDB::class.java, "record")    //la creamos con el nombre record
+                .build()
+
+
+            //room.recordSel().update(Record(1, 0))
+            //siempre tiene que estar comentado es donde se modifica la db
+
+            try {
+                record = db.recordSel().getAll()[0].puntuacion
+            } catch(ex : IndexOutOfBoundsException) {
+                db.recordSel().insert(listOf(Record(1, 0)))
+                record = db.recordSel().getAll()[0].puntuacion
+            }
+
+        }
+        CourrutineDb.start()
+
+
         botonRojo = findViewById(R.id.botonRojo)
         botonAzul = findViewById(R.id.botonAzul)
         botonVerde = findViewById(R.id.botonVerde)
@@ -43,6 +68,8 @@ class MainActivity : AppCompatActivity() {
             botonInicio.visibility = View.INVISIBLE
             cambiarColor(true)
             Log.d("Inicio", "click en inicio")
+            textView.text=marcador.toString()
+
         }
         courrutine.start()
 
@@ -145,16 +172,16 @@ class MainActivity : AppCompatActivity() {
                     }
                     enc.start()
                     acierto()
-                    textView.setText("ADIVINASTE")
+                    //textView.setText("ADIVINASTE")
                 }else {
                     error()
-                    textView.setText("PERDISTE")
+                    //textView.setText("PERDISTE")
                 }
                 } else if (arraySentencia.size < arrayColor.size) {  //si el tamaño del array de sentencia es menor al los colores se ira comprobando color a color mientras existan
                 arraySentencia.add(numColor)
                     if (arraySentencia[arraySentencia.size-1] != arrayColor[arraySentencia.size-1]) {
                         error()//si la sentencia es distinta al color fallo
-                        textView.setText("PERDISTE")
+                        //textView.setText("PERDISTE")
                     }else {    //sino es distinta pues se encendera y apagara
                         val enc = GlobalScope.launch(Dispatchers.Main) {
                             boton.setBackgroundResource(colorEnc)
@@ -176,6 +203,21 @@ class MainActivity : AppCompatActivity() {
         acierto.start()
 
         inicio = true
+        marcador++
+        if (marcador > record) {
+            record = marcador
+            Toast.makeText(applicationContext, "¡Nuevo récord!", Toast.LENGTH_SHORT).show()
+            val newRecord = GlobalScope.launch(Dispatchers.Main) {
+                val db: RecordDB = Room
+                    .databaseBuilder(applicationContext,
+                        RecordDB::class.java, "records")
+                    .build()
+               db.recordSel().update(Record(1, marcador))
+            }
+            newRecord.start()
+            textView.text=marcador.toString()
+
+    }
     }
 
     private fun error(){
