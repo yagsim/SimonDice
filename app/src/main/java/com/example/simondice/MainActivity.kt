@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var textView: TextView
     private var marcador = 0
     private var record = 0
+    private var firstClick = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -222,6 +223,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun error(){
         inicio = false
+        firstClick = false
 
         val error = GlobalScope.launch(Dispatchers.Main) {
             botonRojo.setBackgroundResource(R.color.red)
@@ -235,7 +237,33 @@ class MainActivity : AppCompatActivity() {
             botonAmarillo.setBackgroundResource(R.color.red)
         }
         error.start()
+        botonInicio.setText(R.string.restart)
         botonInicio.visibility=View.VISIBLE
+
+        val recordMsg : TextView = findViewById(R.id.viewRecord)
+        recordMsg.text = "Record: $record"
+
+        botonInicio.setOnClickListener {
+            val restart = GlobalScope.launch(Dispatchers.Main) {
+                delay(240L)
+                botonRojo.setBackgroundResource(R.color.rojoApagado)
+                botonAzul.setBackgroundResource(R.color.azulApagado)
+                botonVerde.setBackgroundResource(R.color.verdeApagado)
+                botonAmarillo.setBackgroundResource(R.color.amarilloApagado)
+                botonInicio.visibility = View.INVISIBLE
+
+                arrayColor = ArrayList()
+                arraySentencia = ArrayList()
+                delay(400L)
+                marcador = 0
+                textView.text = marcador.toString()
+                cambiarColor(true)
+                recordMsg.text = ""
+
+                firstClick = true
+            }
+            restart.start()
+        }
     }
 }
 

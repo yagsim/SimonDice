@@ -89,4 +89,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/botonInicio" />
 
+    <TextView
+        android:id="@+id/viewRecord"
+        android:layout_width="0dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="184dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
