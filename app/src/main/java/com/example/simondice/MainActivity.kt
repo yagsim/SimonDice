@@ -12,7 +12,10 @@ import androidx.room.Room
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.random.Random as Random1
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.observe
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +38,26 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val miModelo by viewModels<MyViewModel>()
+        val botonNuevoRandom: Button = findViewById(R.id.botonInicio)
+        botonNuevoRandom.setOnClickListener {
+            // llama a la función del ViewModel
+            miModelo.sumarRandom()
+
+        }
+
+    /*    miModelo.livedata_numbers.observe(
+            this,
+            Observer(
+                fun(nuevaLista:MutableList<Int>){
+
+                    textView.text = nuevaLista.toString()
+                }
+            )
+        )
+*/
+
         //tendremos que hacer una corrutina porque no se puede en el hilo principal
         val CourrutineDb = GlobalScope.launch(Dispatchers.Main) {
             val db: RecordDB = Room   //instanciamos Db
@@ -78,6 +101,7 @@ class MainActivity : AppCompatActivity() {
             botonRojo.setOnClickListener() {
                 Log.d("botónRojopresionado:", "1")
                 comprobarColor(botonRojo,1,R.color.red,R.color.rojoApagado)
+
             }
             botonAzul.setOnClickListener() {
                 Log.d("botónAzulpresionado:", "2")
@@ -95,6 +119,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun cambiarColor(nuevo: Boolean) {
@@ -266,6 +291,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
+
+
 
 
 
