@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 Observer(
                     fun(nuevaLista:Int){//el observador recibira numbers
                         textView = findViewById(R.id.textView)
-                        textView.text = nuevaLista.toString()
+                        textView.text = miModelo.ronda.value.toString()
                     }
                 )
             )
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 Observer(
                     fun (lista:Int){
                         textRecord=findViewById(R.id.viewRecord)
-                        textRecord.text=lista.toString()
+                        textRecord.text="Record :" +miModelo.record.value.toString()
                     }
                 )
             )
@@ -207,18 +207,11 @@ class MainActivity : AppCompatActivity() {
         acierto.start()
 
         inicio = true
-
+        miModelo.sumaRonda()
         if ((miModelo.ronda.value!!)>miModelo.record.value!!) {    //doble parentesis para decir que no es null
-            miModelo.record.value = miModelo.ronda.value
+            miModelo.actualizarRecord()
             Toast.makeText(applicationContext, "¡Nuevo récord!", Toast.LENGTH_SHORT).show()
-            val newRecord = GlobalScope.launch(Dispatchers.Main) {
-                val db: RecordDB = Room
-                    .databaseBuilder(applicationContext,
-                        RecordDB::class.java, "records")
-                    .build()
-               db.recordSel().update(Record(1, miModelo.ronda.value!!))
-            }
-            newRecord.start()
+
             textView.text=miModelo.ronda.value.toString()
 
     }

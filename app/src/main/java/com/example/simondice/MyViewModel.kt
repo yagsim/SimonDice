@@ -47,7 +47,14 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
+    fun actualizarRecord(){
+        record.value=ronda.value
+        val newRecord = GlobalScope.launch(Dispatchers.Main) {
 
+            room!!.recordSel().update(Record(1, ronda.value!!))
+        }
+        newRecord.start()
+    }
 
     fun sumaRonda(){
         ronda.value=ronda.value?.plus(1)      //añade ronda
