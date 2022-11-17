@@ -91,12 +91,13 @@
 
     <TextView
         android:id="@+id/viewRecord"
-        android:layout_width="0dp"
-        android:layout_height="14dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="184dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="118dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="79dp"
+        android:layout_marginBottom="634dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.simondice
 
 import androidx.room.*
+import androidx.room.Room.databaseBuilder
 
 @Entity
 data class Record (         //tendra que ser una class de tipo data
@@ -20,3 +21,5 @@ interface RecordSel{
     @Update                  //actulizaremos si se bate el record
     suspend fun update(record: Record)
 }
+
+

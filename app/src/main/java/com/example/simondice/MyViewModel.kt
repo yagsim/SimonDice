@@ -1,39 +1,58 @@
 package com.example.simondice
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlin.random.Random
+import androidx.room.Room
+import androidx.room.Room.databaseBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class MyViewModel() : ViewModel() {
-    // para que sea mas facil la etiqueta del log
+
+class MyViewModel(application: Application) : AndroidViewModel(application) {
+    private val context = getApplication<Application>().applicationContext
+    // para que sea mas facil la etiqueta del logt
     private val TAG_LOG: String = "mensaje ViewModel"
 
-    // este va a ser nuestra lista para la secuencia random
-    // usamos mutable, ya que la queremos modificar
-    val numbers = mutableListOf<Int>()
 
     // definimos una MutableLiveData
-    // para poder observar los valores de la MutableList<Int>
-    val livedata_numbers = MutableLiveData<MutableList<Int>>()
+    // para poder observar los valores de la MutableList<Int>(numbers)
+    val ronda= MutableLiveData<Int>()
+    val record= MutableLiveData<Int>()
+    var room: RecordDB?=null
 
-    // inicializamos variables cuando instanciamos
+    // inicializamos variables cuando instanciamos y creamos room
     init {
-        Log.d(TAG_LOG, "Inicializamos livedata")
-        livedata_numbers.value = numbers
+
+        ronda.value=0
+
+         room= Room
+            .databaseBuilder(context,
+                RecordDB::class.java, "record")    //la creamosDB con el nombre record
+            .build()
+         val Courrutine = GlobalScope.launch(Dispatchers.Main) {    //ataque a DB al iniciar el modelo
+
+                 try {
+                     record.value = room!!.recordSel().getAll()[0].puntuacion     //pone el método si no hay un valor
+                 } catch(ex : IndexOutOfBoundsException) {
+                     room!!.recordSel().insert(listOf(Record(1, 0)))         //actualiza el record si el record es mayor con id 1
+                     record.value= room!!.recordSel().getAll()[0].puntuacion
+                 }
+         }
+        Courrutine.start()
+        Log.d(TAG_LOG, "Db:" + room)
+
     }
 
-    /**
-     * añadimos entero random al
-     */
-    fun sumarRandom() {
-        // añadimos entero random a la lista
-        numbers.add(Random.nextInt(0, 4))
-        // actualizamos el livedata, de esta manera si hay un observador
-        // este recibirá la nueva lista
-        livedata_numbers.setValue(numbers)
-        // la mostramos en el logcat
-        Log.d(TAG_LOG, "Añadimos Array al livedata:" + numbers.toString())
-    }
 
+
+    fun sumaRonda(){
+        ronda.value=ronda.value?.plus(1)      //añade ronda
+    }
+    fun reseteo(){
+        ronda.value=0          //reinicia las rondas al fallar
+    }
 }

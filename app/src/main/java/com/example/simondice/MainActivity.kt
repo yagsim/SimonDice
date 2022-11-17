@@ -13,8 +13,7 @@ import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,54 +29,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var botonAmarillo: Button
     lateinit var botonInicio: Button
     lateinit var textView: TextView
-    private var marcador = 0
-    private var record = 0
-    private var firstClick = false
+    lateinit var textRecord: TextView
 
+    private var firstClick = false
+    val miModelo by viewModels<MyViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val miModelo by viewModels<MyViewModel>()
-        val botonNuevoRandom: Button = findViewById(R.id.botonInicio)
-        botonNuevoRandom.setOnClickListener {
-            // llama a la función del ViewModel
-            miModelo.sumarRandom()
-
-        }
-
-    /*    miModelo.livedata_numbers.observe(
-            this,
-            Observer(
-                fun(nuevaLista:MutableList<Int>){
-
-                    textView.text = nuevaLista.toString()
-                }
-            )
-        )
-*/
-
-        //tendremos que hacer una corrutina porque no se puede en el hilo principal
-        val CourrutineDb = GlobalScope.launch(Dispatchers.Main) {
-            val db: RecordDB = Room   //instanciamos Db
-                .databaseBuilder(applicationContext,
-                    RecordDB::class.java, "record")    //la creamos con el nombre record
-                .build()
-
-
-            //room.recordSel().update(Record(1, 0))
-            //siempre tiene que estar comentado es donde se modifica la db
-
-            try {
-                record = db.recordSel().getAll()[0].puntuacion
-            } catch(ex : IndexOutOfBoundsException) {
-                db.recordSel().insert(listOf(Record(1, 0)))
-                record = db.recordSel().getAll()[0].puntuacion
-            }
-
-        }
-        CourrutineDb.start()
 
 
         botonRojo = findViewById(R.id.botonRojo)
@@ -87,16 +47,34 @@ class MainActivity : AppCompatActivity() {
         botonInicio = findViewById(R.id.botonInicio)
         textView = findViewById(R.id.textView)
         botonInicio.setOnClickListener {
+
         val courrutine=GlobalScope.launch(Dispatchers.Main){
             inicio = true;
             botonInicio.visibility = View.INVISIBLE
             cambiarColor(true)
             Log.d("Inicio", "click en inicio")
-            textView.text=marcador.toString()
+            textView.text=miModelo.ronda.value.toString()
 
         }
         courrutine.start()
-
+            miModelo.ronda.observe(  //que hacer cuando haya un setValue muestro esto
+                this,
+                Observer(
+                    fun(nuevaLista:Int){//el observador recibira numbers
+                        textView = findViewById(R.id.textView)
+                        textView.text = nuevaLista.toString()
+                    }
+                )
+            )
+            miModelo.record.observe(
+                this,
+                Observer(
+                    fun (lista:Int){
+                        textRecord=findViewById(R.id.viewRecord)
+                        textRecord.text=lista.toString()
+                    }
+                )
+            )
 
             botonRojo.setOnClickListener() {
                 Log.d("botónRojopresionado:", "1")
@@ -229,19 +207,19 @@ class MainActivity : AppCompatActivity() {
         acierto.start()
 
         inicio = true
-        marcador++
-        if (marcador > record) {
-            record = marcador
+
+        if ((miModelo.ronda.value!!)>miModelo.record.value!!) {    //doble parentesis para decir que no es null
+            miModelo.record.value = miModelo.ronda.value
             Toast.makeText(applicationContext, "¡Nuevo récord!", Toast.LENGTH_SHORT).show()
             val newRecord = GlobalScope.launch(Dispatchers.Main) {
                 val db: RecordDB = Room
                     .databaseBuilder(applicationContext,
                         RecordDB::class.java, "records")
                     .build()
-               db.recordSel().update(Record(1, marcador))
+               db.recordSel().update(Record(1, miModelo.ronda.value!!))
             }
             newRecord.start()
-            textView.text=marcador.toString()
+            textView.text=miModelo.ronda.value.toString()
 
     }
     }
@@ -266,7 +244,7 @@ class MainActivity : AppCompatActivity() {
         botonInicio.visibility=View.VISIBLE
 
         val recordMsg : TextView = findViewById(R.id.viewRecord)
-        recordMsg.text = "Record: $record"
+        recordMsg.text = "Record: ${miModelo.record}"
 
         botonInicio.setOnClickListener {
             val restart = GlobalScope.launch(Dispatchers.Main) {
@@ -280,8 +258,8 @@ class MainActivity : AppCompatActivity() {
                 arrayColor = ArrayList()
                 arraySentencia = ArrayList()
                 delay(400L)
-                marcador = 0
-                textView.text = marcador.toString()
+                miModelo.ronda.value = 0
+                textView.text = miModelo.ronda.toString()
                 cambiarColor(true)
                 recordMsg.text = ""
 
