@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity() {
             R.color.blue -> numColor = 2
             R.color.green -> numColor = 3
             R.color.yellow -> numColor = 4
+
         }
         arrayColor.add(numColor)   //añado al array el color
     }
