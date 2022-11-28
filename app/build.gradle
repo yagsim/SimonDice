@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
 }
 
 android {
@@ -29,12 +30,21 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.example.simondice'  //añadido con firebase
 }
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'  //añadido con firebase
 
 dependencies {
+
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    //añadidos con firebase
+
     implementation "androidx.room:room-ktx:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
+    //room
 }
 
 dependencies {

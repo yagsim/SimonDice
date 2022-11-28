@@ -55,17 +55,19 @@ class MainActivity : AppCompatActivity() {
             Log.d("Inicio", "click en inicio")
             textView.text=miModelo.ronda.value.toString()
 
+
         }
         courrutine.start()
-            miModelo.ronda.observe(  //que hacer cuando haya un setValue muestro esto
+            miModelo.ronda.observe(
                 this,
                 Observer(
                     fun(nuevaLista:Int){//el observador recibira numbers
-                        textView = findViewById(R.id.textView)
-                        textView.text = miModelo.ronda.value.toString()
+                        if (miModelo.ronda.value != 0)
+                            textView.text = miModelo.ronda.value.toString()
                     }
                 )
             )
+
             miModelo.record.observe(
                 this,
                 Observer(
@@ -238,7 +240,7 @@ class MainActivity : AppCompatActivity() {
         botonInicio.visibility=View.VISIBLE
 
         val recordMsg : TextView = findViewById(R.id.viewRecord)
-        recordMsg.text = "Record: ${miModelo.record}"
+        recordMsg.text = "Record: ${miModelo.record.value}"
 
         botonInicio.setOnClickListener {
             val restart = GlobalScope.launch(Dispatchers.Main) {
